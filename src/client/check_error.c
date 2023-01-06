@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:49:58 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/04 17:10:57 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/06 16:35:28 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ int	check_pid(char *chpid)
 	return (pid);
 }
 
-void	check_args(int argc, char **argv)
+int	check_args(int argc, char **argv)
 {
+	int	pid;
+
 	if (argc > 3)
 		print_error("to many arguments\n");
 	else if (argc < 3)
 		print_error("to few arguments\n");
-	check_pid(argv[1]);
-	ft_printf("ok");
-	(void)argv;
+	pid = check_pid(argv[1]);
+	return (pid);
 }
