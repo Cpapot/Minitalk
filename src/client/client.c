@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:34:48 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/06 17:48:40 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/07 02:18:42 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	main(int argc, char **argv)
 	while (argv[2][i])
 	{
 		convert_utf8(argv[2][i], pid);
-		ft_printf(" ");
 		i++;
 	}
 }
