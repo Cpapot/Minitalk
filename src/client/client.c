@@ -6,13 +6,13 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:34:48 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/09 17:49:07 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/10 13:19:56 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minitalk.h"
 
-void	convert_utf8(char c, int pid)
+void	convert_utf8(int c, int pid)
 {
 	int	divide;
 
@@ -52,6 +52,28 @@ void	init_sign(void)
 	sigaction(SIGUSR1, &inf, NULL);
 }
 
+void	convert_size(int c, int pid)
+{
+	int	divide;
+	
+	divide = 0b10000000000000000000000000000000;
+	while (divide != 0)
+	{
+		if ((c & divide) != 0)
+		{
+			kill(pid, SIGUSR2);
+			ft_printf("1");
+		}
+		else
+		{
+			kill(pid, SIGUSR1);
+			ft_printf("0");
+		}
+		divide >>= 1;
+		usleep(60);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	int		pid;
@@ -60,6 +82,7 @@ int	main(int argc, char **argv)
 	i = 0;
 	init_sign();
 	pid = check_args(argc, argv);
+	convert_size(ft_strlen(argv[2]), pid);
 	while (argv[2][i])
 	{
 		convert_utf8(argv[2][i], pid);

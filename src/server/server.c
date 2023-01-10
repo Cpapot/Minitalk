@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:33:11 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/09 17:48:45 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/09 22:52:32 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,24 @@ int	bin_to_dec(int bin)
 	return (dec);
 }
 
+void	read_size(int sig, int pid)
+{
+	static int	i = 1;
+	static size_t	bin = 0;
+
+	if (sig != SIGUSR1VAR)
+	{
+		if (i % 32 != 0)
+			bin += ft_recursive_power(10, (8 - i));
+		else
+			bin += 1;
+	}
+	kill(pid, SIGUSR1);
+	if (i % 32 == 0)
+		ft_printf("%c", bin_to_dec(bin));
+	i++;
+}
+
 void	handler(int sig, siginfo_t *info, void *rien)
 {
 	static int	bin = 0;
@@ -46,19 +64,23 @@ void	handler(int sig, siginfo_t *info, void *rien)
 
 	if (rien != NULL && info->si_pid)
 		rien = NULL;
-	if (sig != SIGUSR1VAR)
+	if (i <= 32)
+		read_size(sig, info->si_pid);
+	else
 	{
-		if (i % 8 != 0)
-			bin += ft_recursive_power(10, (8 - i));
-		else
-			bin += 1;
-	}
-	kill(info->si_pid, SIGUSR1);
-	if (i % 8 == 0)
-	{
-		ft_printf("%c", bin_to_dec(bin));
-		i = 0;
-		bin = 0;
+		if (sig != SIGUSR1VAR)
+		{
+			if (i % 8 != 0)
+				bin += ft_recursive_power(10, (8 - i));
+			else
+				bin += 1;
+		}
+		kill(info->si_pid, SIGUSR1);
+		if (i % 8 == 0)
+		{
+			ft_printf("%c", bin_to_dec(bin));
+			bin = 0;
+		}
 	}
 	i++;
 }
