@@ -9,7 +9,7 @@ HEADERS 	=	minitalk.h
 
 CLIENTFILE	=	client.c check_error.c
 
-SERVERFILE	=	server.c
+SERVERFILE	=	server.c server_utils.c
 
 LIBFTSRC	=	libftprintf.a libft.a
 

@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:34:48 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/10 13:19:56 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/10 18:05:34 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,23 @@ void	convert_utf8(int c, int pid)
 	divide = 0b10000000;
 	while (divide != 0)
 	{
+		usleep(100);
 		if ((c & divide) != 0)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		if (sleep(1) == 0)
-		{
-			ft_printf("error");
-			if ((c & divide) != 0)
-				kill(pid, SIGUSR2);
-			else
-				kill(pid, SIGUSR1);
-		}
 		divide >>= 1;
 	}
 }
 
 void	handler(int sig, siginfo_t *info, void *rien)
 {
+	static int	i = 0;
+
 	(void )sig;
 	if (rien == NULL && info->si_pid != 0)
 		rien = NULL;
+	i++;
 }
 
 void	init_sign(void)
@@ -55,9 +51,11 @@ void	init_sign(void)
 void	convert_size(int c, int pid)
 {
 	int	divide;
-	
-	divide = 0b10000000000000000000000000000000;
-	while (divide != 0)
+	int	i;
+
+	i = 1;
+	divide = 0b1000000000000000000000000000000;
+	while (divide != 0 && i < 32)
 	{
 		if ((c & divide) != 0)
 		{
@@ -69,8 +67,9 @@ void	convert_size(int c, int pid)
 			kill(pid, SIGUSR1);
 			ft_printf("0");
 		}
+		i++;
 		divide >>= 1;
-		usleep(60);
+		usleep(100);
 	}
 }
 

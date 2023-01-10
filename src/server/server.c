@@ -6,83 +6,66 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:33:11 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/09 22:52:32 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/10 18:11:46 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minitalk.h"
 
-int	ft_recursive_power(int nb, int power)
+void	read_bin(int i, int sig, char **strp)
 {
-	if (power < 0)
-		return (0);
-	if (power == 0)
-		return (1);
-	return (nb * ft_recursive_power(nb, power - 1));
-}
+	static int				bin = 0;
+	static unsigned int		u = 0;
+	char					*str;
 
-int	bin_to_dec(int bin)
-{
-	int	i;
-	int	digit;
-	int	dec;
-
-	dec = 0;
-	i = 0;
-	while (bin != 0)
-	{
-		digit = bin % 10;
-		dec += digit << i;
-		bin = bin / 10;
-		i++;
-	}
-	return (dec);
-}
-
-void	read_size(int sig, int pid)
-{
-	static int	i = 1;
-	static size_t	bin = 0;
-
+	str = *strp;
+	if (i == 33)
+		u = 0;
 	if (sig != SIGUSR1VAR)
 	{
-		if (i % 32 != 0)
-			bin += ft_recursive_power(10, (8 - i));
+		if ((i + 1) % 8 != 0)
+			bin += ft_recursive_power(10, (8 - ((i + 1) % 8)));
 		else
 			bin += 1;
 	}
-	kill(pid, SIGUSR1);
-	if (i % 32 == 0)
-		ft_printf("%c", bin_to_dec(bin));
-	i++;
+	if ((i + 1) % 8 == 0)
+	{
+		str[u] = bin_to_dec(bin);
+		str[u + 1] = '\0';
+		u++;
+		bin = 0;
+	}
 }
 
 void	handler(int sig, siginfo_t *info, void *rien)
 {
-	static int	bin = 0;
-	static int	i = 1;
+	static int				i = 0;
+	static unsigned int		size;
+	static char				*str;
 
-	if (rien != NULL && info->si_pid)
+	i++;
+	if (rien != NULL)
 		rien = NULL;
+	usleep(50);
+	kill(info->si_pid, SIGUSR1);
 	if (i <= 32)
-		read_size(sig, info->si_pid);
+		size = read_size(sig);
 	else
 	{
-		if (sig != SIGUSR1VAR)
+		if (i == 33)
 		{
-			if (i % 8 != 0)
-				bin += ft_recursive_power(10, (8 - i));
-			else
-				bin += 1;
+			str = malloc(sizeof(char) * (size + 1));
+			if (str == NULL)
+				return ;
 		}
-		kill(info->si_pid, SIGUSR1);
-		if (i % 8 == 0)
+		read_bin(i, sig, &str);
+		if (ft_strlen(str) == size)
 		{
-			ft_printf("%c", bin_to_dec(bin));
-			bin = 0;
+			ft_printf("%s", str);
+			free(str);
+			i = 0;
 		}
 	}
-	i++;
 }
 
 int	main(void)
