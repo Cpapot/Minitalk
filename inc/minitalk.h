@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:32:06 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/10 17:00:37 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/10 23:56:10 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int				check_args(int argc, char **argv);
 /*					server utils					*/
 int				bin_to_dec(unsigned long long bin);
 int				ft_recursive_power(unsigned long int nb, int power);
-unsigned int	read_size(int sig);
+unsigned int	read_size(int sig, int i);
 
 #endif

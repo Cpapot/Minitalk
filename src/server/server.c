@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:33:11 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/10 18:11:46 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/11 00:47:59 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ void	read_bin(int i, int sig, char **strp)
 		u = 0;
 	if (sig != SIGUSR1VAR)
 	{
-		if ((i + 1) % 8 != 0)
-			bin += ft_recursive_power(10, (8 - ((i + 1) % 8)));
+		if (i % 8 != 0)
+			bin += ft_recursive_power(10, (8 - (i % 8)));
 		else
 			bin += 1;
 	}
-	if ((i + 1) % 8 == 0)
+	if (i % 8 == 0)
 	{
 		str[u] = bin_to_dec(bin);
+		//ft_printf("%c", bin_to_dec(bin));
 		str[u + 1] = '\0';
 		u++;
 		bin = 0;
@@ -44,12 +45,15 @@ void	handler(int sig, siginfo_t *info, void *rien)
 	static char				*str;
 
 	i++;
+
+	/*if (sig == SIGUSR1VAR)
+		ft_printf("0");
+	else
+		ft_printf("1");*/
 	if (rien != NULL)
 		rien = NULL;
-	usleep(50);
-	kill(info->si_pid, SIGUSR1);
 	if (i <= 32)
-		size = read_size(sig);
+		size = read_size(sig, i);
 	else
 	{
 		if (i == 33)
@@ -61,10 +65,12 @@ void	handler(int sig, siginfo_t *info, void *rien)
 		read_bin(i, sig, &str);
 		if (ft_strlen(str) == size)
 		{
-			ft_printf("%s", str);
+			ft_printf("\n%s\n", str);
 			free(str);
 			i = 0;
 		}
+		usleep(75);
+		kill(info->si_pid, SIGUSR1);
 	}
 }
 
@@ -80,5 +86,6 @@ int	main(void)
 	sigaction(SIGUSR2, &inf, NULL);
 	while (1)
 	{
+		pause();
 	}
 }

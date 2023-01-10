@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 15:25:52 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/10 18:12:46 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/11 00:15:02 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,23 @@ int	ft_recursive_power(unsigned long int nb, int power)
 	return (nb * ft_recursive_power(nb, power - 1));
 }
 
-unsigned int	read_size(int sig)
+unsigned int	read_size(int sig, int i)
 {
-	static int						i = 1;
 	static unsigned long long int	bin = 0;
 	unsigned long long int			tmp;
 
 	if (sig != SIGUSR1VAR)
 	{
 		if (i % 32 != 0)
-			bin += ft_recursive_power(10, (31 - i));
+			bin += ft_recursive_power(10, (32 - i));
 		else
 			bin += 1;
-		ft_printf("1");
 	}
-	else
-		ft_printf("0");
 	if (i % 32 == 0)
 	{
 		tmp = bin;
 		bin = 0;
-		i = 1;
-		ft_printf("|");
 		return (bin_to_dec(tmp));
 	}
-	i++;
 	return (0);
 }
