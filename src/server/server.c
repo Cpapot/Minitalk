@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:33:11 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/11 00:47:59 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/11 17:43:38 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	read_bin(int i, int sig, char **strp)
 
 	str = *strp;
 	if (i == 33)
+	{
 		u = 0;
+		bin = 0;
+	}
 	if (sig != SIGUSR1VAR)
 	{
 		if (i % 8 != 0)
@@ -65,11 +68,17 @@ void	handler(int sig, siginfo_t *info, void *rien)
 		read_bin(i, sig, &str);
 		if (ft_strlen(str) == size)
 		{
-			ft_printf("\n%s\n", str);
+			ft_printf("%s\n", str);
 			free(str);
 			i = 0;
 		}
-		usleep(75);
+		/*if (sleep(1) != 0 && ft_strlen(str) != size)
+		{
+			ft_printf("error");
+			free(str);
+			i = 0;
+		}*/
+		usleep(100);
 		kill(info->si_pid, SIGUSR1);
 	}
 }
