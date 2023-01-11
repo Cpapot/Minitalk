@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:33:11 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/11 17:43:38 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/11 18:16:22 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	handler(int sig, siginfo_t *info, void *rien)
 		ft_printf("0");
 	else
 		ft_printf("1");*/
-	if (rien != NULL)
+	if (rien != NULL && info->si_pid)
 		rien = NULL;
 	if (i <= 32)
 		size = read_size(sig, i);
@@ -72,14 +72,7 @@ void	handler(int sig, siginfo_t *info, void *rien)
 			free(str);
 			i = 0;
 		}
-		/*if (sleep(1) != 0 && ft_strlen(str) != size)
-		{
-			ft_printf("error");
-			free(str);
-			i = 0;
-		}*/
-		usleep(100);
-		kill(info->si_pid, SIGUSR1);
+		//kill(info->si_pid, SIGUSR1);
 	}
 }
 

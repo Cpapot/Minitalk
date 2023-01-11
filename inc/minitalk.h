@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:32:06 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/10 23:56:10 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/11 18:12:56 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 /*						Client						*/
 /*					check_error				*/
 int				check_args(int argc, char **argv);
+void			print_error(char *error);
+
 
 /*						Server						*/
 /*					server utils					*/
