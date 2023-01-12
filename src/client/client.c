@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:34:48 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/12 18:39:51 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/12 23:46:26 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	convert_utf8(int c, int pid)
 	divide = 0b10000000;
 	while (divide != 0)
 	{
-		usleep(250);
 		if ((c & divide) != 0)
 		{
 			if (kill(pid, SIGUSR2) == -1)
@@ -51,18 +50,18 @@ void	init_sign(void)
 	sigemptyset(&inf.sa_mask);
 	inf.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &inf, NULL);
+	sigaction(SIGUSR2, &inf, NULL);
 }
 
 void	convert_size(int c, int pid)
 {
-	int	divide;
+	long int	divide;
 	int	i;
 
 	i = 1;
 	divide = 0b10000000000000000000000000000000;
 	while (divide != 0 && i <= 32)
 	{
-		usleep(250);
 		if ((c & divide) != 0)
 		{
 			if (kill(pid, SIGUSR2) == -1)
