@@ -6,11 +6,22 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:33:11 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/11 18:16:22 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/12 18:39:31 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minitalk.h"
+
+void	send_info(int pid)
+{
+	if (kill(pid, SIGUSR1) == -1)
+	{
+		ft_putstr_fd("SIGUSR1 error", 2);
+		usleep(250);
+		kill(pid, SIGUSR2);
+		exit(EXIT_FAILURE);
+	}
+}
 
 void	read_bin(int i, int sig, char **strp)
 {
@@ -34,7 +45,7 @@ void	read_bin(int i, int sig, char **strp)
 	if (i % 8 == 0)
 	{
 		str[u] = bin_to_dec(bin);
-		//ft_printf("%c", bin_to_dec(bin));
+		ft_printf("%c", bin_to_dec(bin));
 		str[u + 1] = '\0';
 		u++;
 		bin = 0;
@@ -49,10 +60,6 @@ void	handler(int sig, siginfo_t *info, void *rien)
 
 	i++;
 
-	/*if (sig == SIGUSR1VAR)
-		ft_printf("0");
-	else
-		ft_printf("1");*/
 	if (rien != NULL && info->si_pid)
 		rien = NULL;
 	if (i <= 32)
@@ -72,8 +79,8 @@ void	handler(int sig, siginfo_t *info, void *rien)
 			free(str);
 			i = 0;
 		}
-		//kill(info->si_pid, SIGUSR1);
 	}
+	send_info(info->si_pid);
 }
 
 int	main(void)

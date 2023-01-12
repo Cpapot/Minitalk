@@ -6,13 +6,11 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:34:48 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/11 18:15:07 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/12 18:39:51 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minitalk.h"
-
-int	test = 0;
 
 void	convert_utf8(int c, int pid)
 {
@@ -21,29 +19,28 @@ void	convert_utf8(int c, int pid)
 	divide = 0b10000000;
 	while (divide != 0)
 	{
-		usleep(800);
+		usleep(250);
 		if ((c & divide) != 0)
 		{
 			if (kill(pid, SIGUSR2) == -1)
 				print_error("SIGUSR2 error");
-			// ft_printf("1");
 		}
 		else
 		{
-			if(kill(pid, SIGUSR1) == -1)
+			if (kill(pid, SIGUSR1) == -1)
 				print_error("SIGUSR1 error");
-			// ft_printf("0");
 		}
+		pause();
 		divide >>= 1;
 	}
 }
 
 void	handler(int sig, siginfo_t *info, void *rien)
 {
-	(void )sig;
 	if (rien == NULL && info->si_pid != 0)
 		rien = NULL;
-	test++;
+	if (sig == SIGUSR2VAR)
+		print_error("Server error");
 }
 
 void	init_sign(void)
@@ -65,19 +62,18 @@ void	convert_size(int c, int pid)
 	divide = 0b10000000000000000000000000000000;
 	while (divide != 0 && i <= 32)
 	{
-		usleep(800);
+		usleep(250);
 		if ((c & divide) != 0)
 		{
 			if (kill(pid, SIGUSR2) == -1)
 				print_error("SIGUSR2 error");
-			// ft_printf("1");
 		}
 		else
 		{
-			if(kill(pid, SIGUSR1) == -1)
+			if (kill(pid, SIGUSR1) == -1)
 				print_error("SIGUSR1 error");
-			// ft_printf("0");
 		}
+		pause();
 		i++;
 		divide >>= 1;
 	}
