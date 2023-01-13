@@ -6,13 +6,18 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:32:06 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/12 23:22:01 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/13 02:21:22 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 
 # define MINITALK_H
+
+#define RED "\033[00;31m"
+#define BLUE "\033[00;36m"
+#define GREEN "\033[00;32m"
+#define NORMAL "\033[00m"
 
 # include <signal.h>
 # include "../libft/includes/libft.h"

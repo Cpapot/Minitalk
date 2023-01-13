@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:49:58 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/06 16:35:28 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/13 02:02:01 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	print_error(char *error)
 {
+	ft_putstr_fd(RED, 2);
 	ft_putstr_fd(error, 2);
+	ft_putstr_fd(NORMAL, 2);
 	exit(EXIT_FAILURE);
 }
 

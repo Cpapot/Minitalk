@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:33:11 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/12 23:49:30 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/13 02:30:13 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void	handler(int sig, siginfo_t *info, void *rien)
 				return ;
 		}
 		read_bin(i, sig, &str);
-		//ft_printf("i: (%d), size : (%u), (i - 32) / 8 : (%i)\n", i, size, (i - 32) / 8);
 		if (((unsigned int)i - 32) / 8 == size)
 		{
-			ft_printf("%s\n", str);
+			ft_printf(GREEN"%s%d\n"NORMAL, "message received from PID: ", info->si_pid);
+			ft_printf("\"%s\"\n", str);
 			free(str);
 			i = 0;
 		}
@@ -91,7 +91,7 @@ int	main(void)
 	inf.sa_sigaction = handler;
 	sigemptyset(&inf.sa_mask);
 	inf.sa_flags = SA_SIGINFO;
-	ft_printf("PID: %d\n", getpid());
+	ft_printf(BLUE"PID: %d\n"NORMAL, getpid());
 	sigaction(SIGUSR1, &inf, NULL);
 	sigaction(SIGUSR2, &inf, NULL);
 	while (1)
