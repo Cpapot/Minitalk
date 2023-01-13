@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:34:48 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/13 02:08:01 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/13 14:25:01 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	init_sign(void)
 void	convert_size(int c, int pid)
 {
 	long int	divide;
-	int	i;
+	int			i;
 
 	i = 1;
 	divide = 0b10000000000000000000000000000000;

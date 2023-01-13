@@ -6,7 +6,7 @@
 /*   By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:33:11 by cpapot            #+#    #+#             */
-/*   Updated: 2023/01/13 02:30:13 by cpapot           ###   ########.fr       */
+/*   Updated: 2023/01/13 14:48:39 by cpapot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	send_info(int pid)
 {
-	usleep(7);
+	usleep(10);
 	if (kill(pid, SIGUSR1) == -1)
 	{
 		ft_putstr_fd("SIGUSR1 error\n", 2);
@@ -52,17 +52,14 @@ void	read_bin(int i, int sig, char **strp)
 	}
 }
 
-void	handler(int sig, siginfo_t *info, void *rien)
+void	handler(int sig, siginfo_t *info, void *no)
 {
 	static int				i = 0;
 	static unsigned int		size;
 	static char				*str;
 
 	i++;
-
-	if (rien != NULL)
-		rien = NULL;
-	if (i <= 32)
+	if (i <= 32 && (no == NULL || no != NULL))
 		size = read_size(sig, i);
 	else
 	{
@@ -73,13 +70,13 @@ void	handler(int sig, siginfo_t *info, void *rien)
 				return ;
 		}
 		read_bin(i, sig, &str);
-		if (((unsigned int)i - 32) / 8 == size)
-		{
-			ft_printf(GREEN"%s%d\n"NORMAL, "message received from PID: ", info->si_pid);
-			ft_printf("\"%s\"\n", str);
-			free(str);
-			i = 0;
-		}
+	}
+	if ((((unsigned int)i - 32) / 8 == size || size == 0) && i >= 32)
+	{
+		ft_printf(GREEN"message received from PID: %d\n", info->si_pid);
+		ft_printf(NORMAL"\"%s\"\n", str);
+		free(str);
+		i = 0;
 	}
 	send_info(info->si_pid);
 }
