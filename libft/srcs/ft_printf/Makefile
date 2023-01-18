@@ -6,7 +6,7 @@
 #    By: cpapot <cpapot@student.42lyon.fr >         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/08 14:44:54 by cpapot            #+#    #+#              #
-#    Updated: 2022/11/30 14:25:37 by cpapot           ###   ########.fr        #
+#    Updated: 2023/01/13 16:09:10 by cpapot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,18 +32,18 @@ CFLAGS = -Wall -Wextra -Werror
 OBJS	= $(SRC_ROOT:.c=.o) ${SRC_DIR:.c=.o} ${LIBFT_DIR:.c=.o}
 
 %.o:	%.c ${HEADERS} Makefile
-	$(CC) -I ${CFLAGS} -c $< -o $@
+	@$(CC) -I ${CFLAGS} -c $< -o $@
 
-${NAME}:	${OBJS}
-	ar rcs ${NAME} ${OBJS}
+@${NAME}:	${OBJS}
+	@ar rcs ${NAME} ${OBJS}
 
 all: ${NAME}
 
 clean:
-	${RM} ${OBJS}
+	@${RM} ${OBJS}
 
 fclean:		clean
-	${RM} ${NAME}
+	@${RM} ${NAME}
 
 re:	fclean all
 

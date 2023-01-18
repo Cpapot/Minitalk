@@ -54,8 +54,6 @@ AR			=	ar rc
 
 CFLAGS		=	-Wall -Wextra -Werror -g3
 
-CC			=	gcc
-
 RM			=	rm -rf
 
 MKDIR		=	mkdir -p
@@ -69,40 +67,45 @@ MKDIR		=	mkdir -p
 
 all : ${NAME}
 
-${NAME}:	Makefile
-	${MAKE} lib
-	${MAKE} server
-	${MAKE} client
+${NAME}:	${CLIENTOBJS} ${SERVEROBJS}
+	@${MAKE} lib
+	@${MAKE} client
+	@${MAKE} server
 
 $(CLIENTOBJSDIR)%.o: ${CLIENTDIR}%.c ${HEAD}
-	$(CC) ${CFLAGS} -c $< -o $@ -I$(HEADERSDIR)
+	@$(CC) ${CFLAGS} -c $< -o $@ -I$(HEADERSDIR)
 
 $(SERVEROBJSDIR)%.o: ${SERVERDIR}%.c ${HEAD}
-	$(CC) ${CFLAGS} -c $< -o $@ -I$(HEADERSDIR)
+	@$(CC) ${CFLAGS} -c $< -o $@ -I$(HEADERSDIR)
 
 clean:
-	${MAKE} clean -C ${LIBFTDIR}
-	${RM} ${CLIENTOBJS}
-	${RM} ${SERVEROBJS}
+	@${MAKE} clean -C ${LIBFTDIR}
+	@${RM} ${CLIENTOBJS}
+	@${RM} ${SERVEROBJS}
+	@echo "\033[00;31m💧 Clean: Removed all the \".o\" files \n\033[00;00m"
 
 fclean:
-	${RM} ${CLIENTOBJS}
-	${RM} ${SERVEROBJS}
-	${RM} server
-	${RM} client
-	${MAKE} fclean -C ${LIBFTDIR}
+	@${RM} ${CLIENTOBJS}
+	@${RM} ${SERVEROBJS}
+	@${RM} server
+	@${RM} client
+	@${MAKE} fclean -C ${LIBFTDIR}
+	@echo  "\033[00;31m🧼 Fclean: Removed the executables \n\033[00;00m"
 
 re:
 	${MAKE} fclean
 	${MAKE} all
 
 client: ${CLIENTOBJS}
-		${CC} ${CLIENTOBJS} ${LIBFT} -o client
+		@${CC} ${CLIENTOBJS} ${LIBFT} -o client
+		@echo "\033[00;32m📟 Client ready!\n\033[00m"
 
 server: ${SERVEROBJS}
-		${CC} ${SERVEROBJS} ${LIBFT} -o server
+		@${CC} ${SERVEROBJS} ${LIBFT} -o server
+		@echo "\033[00;32m📥 Server ready!\n\033[00m"
 
 lib:
-	${MAKE}	-C ${LIBFTDIR}
+	@${MAKE}	-C ${LIBFTDIR}
+	@echo "\033[00;32m✅ Libft ready!\n\033[00m"
 
 .PHONY : re all clean fclean printf lib client server

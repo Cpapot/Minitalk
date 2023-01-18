@@ -104,27 +104,27 @@ MKDIR		=	mkdir -p
 #				 |_|  \_\__,_|_|\___||___/
 
 %.o: %.c ${HEADER} Makefile
-	$(CC) -I ${CFLAGS} -c $< -o $@
+	@$(CC) -I ${CFLAGS} -c $< -o $@
 
 all : ${NAME} printf
 
 ${NAME}:	${OBJS}
-	${AR} ${NAME} ${OBJS}
+	@${AR} ${NAME} ${OBJS}
 
 clean:
-	${MAKE} clean -C ${PRINTF}
-	${RM} ${OBJS}
+	@${MAKE} clean -C ${PRINTF}
+	@${RM} ${OBJS}
 
 fclean:
-	${MAKE} clean
-	${RM} ${NAME}
-	${MAKE} fclean -C ${PRINTF}
+	@${MAKE} clean
+	@${RM} ${NAME}
+	@${MAKE} fclean -C ${PRINTF}
 
 re:
-	${MAKE} fclean
-	${MAKE} all
+	@${MAKE} fclean
+	@${MAKE} all
 
 printf: ${PRINTF}
-	${MAKE} -C ${PRINTF}
+	@${MAKE} -C ${PRINTF}
 
 .PHONY : re all clean fclean printf
